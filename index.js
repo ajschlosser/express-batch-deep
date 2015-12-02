@@ -5,7 +5,7 @@ var url = require('url');
 var FakeRequest = require('./lib/FakeRequest');
 var FakeResponse = require('./lib/FakeResponse');
 
-module.exports = function expressBatch(app, options) {
+module.exports = function expressBatchDeep(app, options) {
 
     options = options || {};
 

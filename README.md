@@ -1,4 +1,4 @@
-express-batch
+express-batch-deep
 =============
 
 [![Build Status][travis-img]][travis-url]
