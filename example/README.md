@@ -1,4 +1,4 @@
-Example of express-batch usage.
+Example of express-batch-deep usage.
 =============
 
 ## Installation

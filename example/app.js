@@ -3,11 +3,11 @@
 
 // app init
 var express = require("express");
-var expressBatch = require("express-batch");
+var expressBatchDeep = require("express-batch-deep");
 var app = express();
 
 // mounting batch handler
-app.use("/api/batch", expressBatch(app));
+app.use("/api/batch", expressBatchDeep(app));
 
 
 // mounting ordinary API endpoints

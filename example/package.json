@@ -1,7 +1,7 @@
 {
-  "description": "Example of express-batch usage.",
+  "description": "Example of express-batch-deep usage.",
   "dependencies": {
     "express": "^4.x",
-    "express-batch": "*"
+    "express-batch-deep": "*"
   }
 }
