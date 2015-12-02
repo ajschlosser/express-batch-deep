@@ -3,14 +3,14 @@
 var should = require("should");
 var request = require("supertest");
 var express = require("express");
-var expressBatch = require("..");
+var expressBatchDeep = require("..");
 
 describe("express-batch as a module", function () {
     it("should provide function, which returns middleware function", function () {
         var app = express();
-        should(expressBatch).be.a.Function;
+        should(expressBatchDeep).be.a.Function;
 
-        should(expressBatch(app)).be.a.Function;
+        should(expressBatchDeep(app)).be.a.Function;
     });
 });
 
@@ -20,7 +20,7 @@ describe("request to route for express-batch", function () {
 
     beforeEach(function createApp() {
         app = express();
-        app.use("/api/batch", expressBatch(app));
+        app.use("/api/batch", expressBatchDeep(app));
     });
 
     describe("without any api endpoint specified", function () {
@@ -346,7 +346,7 @@ describe("request to route for express-batch", function () {
             var options = {
                 separator: '|'
             };
-            app.use("/api/batchNested", expressBatch(app, options));
+            app.use("/api/batchNested", expressBatchDeep(app, options));
         });
 
         it("should return results for two endpoints with nested field-value pairs", function (done) {
@@ -403,7 +403,7 @@ describe("request to route for express-batch", function () {
             var options = {
                 returnHeaders: true
             };
-            app.use("/api/batchWithHeaders", expressBatch(app, options));
+            app.use("/api/batchWithHeaders", expressBatchDeep(app, options));
         });
 
 

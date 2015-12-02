@@ -1,8 +1,8 @@
 {
-  "name": "express-batch",
+  "name": "express-batch-deep",
   "version": "0.1.1",
-  "description": "Middleware, which allow you to perform batch requests to your express.js powered API.",
-  "main": "express-batch.js",
+  "description": "Express 4.x middleware for batched API requests.",
+  "main": "express-batch-deep.js",
   "scripts": {
     "test": "node_modules/.bin/mocha  --reporter spec --bail --growl --check-leaks test/",
     "test-cov": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --reporter dot --check-leaks test/",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yarikos/express-batch.git"
+    "url": "https://github.com/ajschlosser/express-batch-deep.git"
   },
   "keywords": [
     "express",
@@ -18,10 +18,20 @@
     "batch",
     "api"
   ],
-  "author": "https://github.com/yarikos",
+  "author": {
+    "name": "yarikos",
+    "url": "https://github.com/yarikos"
+  },
+  "contributors": [
+    {
+      "name": "Aaron John Schlosser",
+      "email": "aaron@aaronschlosser.com",
+      "url": "http://aaronschlosser.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yarikos/express-batch/issues"
+    "url": "https://github.com/ajschlosser/express-batch-deep/issues"
   },
   "dependencies": {},
   "devDependencies": {

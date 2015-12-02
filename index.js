@@ -1,7 +1,6 @@
 "use strict";
 
 var url = require('url');
-
 var FakeRequest = require('./lib/FakeRequest');
 var FakeResponse = require('./lib/FakeResponse');
 

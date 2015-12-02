@@ -11,7 +11,7 @@ Handler for [Express 4](http://expressjs.com/4x/api.html) application that allow
 
 It's attached as handler of an particular route, like any kind of middelware.
 
-If you need to perform several different but simultaneous requests to one API endpoint, `express-batch-deep` allows you to combine them all together (in one querystring) and send only one request to the handler's route. This began as a fork of [express-batch](https://github.com/yarikos/express-batch) with the intention of adding support for nested field-value pairs within querystrings. The original `express-batch` module (and many like it) already leveraged `req.query` to separate the distinct batched API endpoints via field-value pairs. However, if any of those batched API endpoints required field-value pairs, it no longer worked. `express-batch-deep`, however, allows for you to pass in an optional "separator" value (in the test, `|` is used as an example), to indicate that the endpoints should not be separated by `&`, and that `&` should rather be considered an integral part of the endpoint's query string. In other words, whereas before `/api/batch?one=/api/test?option1=true&option2=false&two=/api/test` would be represented in the `requests` object as something like
+If you need to perform several different but simultaneous requests to one API endpoint, `express-batch-deep` allows you to combine them all together (in one querystring) and send only one request to the handler's route. This began as a fork of [express-batch](https://github.com/yarikos/express-batch) by [yarikos](https://github.com/yarikos) with the intention of adding support for nested field-value pairs within querystrings. The original `express-batch` module (and many like it) already leveraged `req.query` to separate the distinct batched API endpoints via field-value pairs. However, if any of those batched API endpoints required field-value pairs, it no longer worked. `express-batch-deep`, however, allows for you to pass in an optional "separator" value (in the test, `|` is used as an example), to indicate that the endpoints should not be separated by `&`, and that `&` should rather be considered an integral part of the endpoint's query string. In other words, whereas before `/api/batch?one=/api/test?option1=true&option2=false&two=/api/test` would be represented in the `requests` object as something like
 
 ```js
 {
@@ -97,7 +97,7 @@ With this example request to  `http://localhost:3000/api/batch?users=/api/users/
 
 [travis-img]: https://travis-ci.org/ajschlosser/express-batch-deep.svg?branch=master
 [travis-url]: https://travis-ci.org/ajschlosser/express-batch-deep
-[downloads-img]: https://img.shields.io/npm/dm/express-batch.svg
-[downloads-url]: https://npmjs.org/package/express-batch
-[license-img]: https://img.shields.io/npm/l/express-batch.svg
+[downloads-img]: https://img.shields.io/npm/dm/express-batch-deep.svg
+[downloads-url]: https://npmjs.org/package/express-batch-deep
+[license-img]: https://img.shields.io/npm/l/express-batch-deep.svg
 [license-url]: LICENSE
