@@ -2,33 +2,50 @@ express-batch-deep
 =============
 
 [![Build Status][travis-img]][travis-url]
-[![Test Coverage][coveralls-img]][coveralls-url]
-[![Code Climate][codeclimate-img]][codeclimate-url]
 [![NPM Downloads][downloads-img]][downloads-url]
 [![License][license-img]][license-url]
 
 ## Description
 
-Handler for [Express 4](http://expressjs.com/4x/api.html) application, which allows to perform batch requests.
+Handler for [Express 4](http://expressjs.com/4x/api.html) application that allows for batch requests.
 
-It's attached as handler of an particular route.
+It's attached as handler of an particular route, like any kind of middelware.
 
-If you need to perform several different requests to one API simultaneously, you could combine them all together (in one querystring) and send only one request to the handler's route;  
+If you need to perform several different but simultaneous requests to one API endpoint, `express-batch-deep` allows you to combine them all together (in one querystring) and send only one request to the handler's route. This began as a fork of [express-batch](https://github.com/yarikos/express-batch) with the intention of adding support for nested field-value pairs within querystrings. The original `express-batch` module (and many like it) already leveraged `req.query` to separate the distinct batched API endpoints via field-value pairs. However, if any of those batched API endpoints required field-value pairs, it no longer worked. `express-batch-deep`, however, allows for you to pass in an optional "separator" value (in the test, `|` is used as an example), to indicate that the endpoints should not be separated by `&`, and that `&` should rather be considered an integral part of the endpoint's query string. In other words, whereas before `/api/batch?one=/api/test?option1=true&option2=false&two=/api/test` would be represented in the `requests` object as something like
 
-Handler parses requests, tries to invoke relevant handler for each request (standard app router is used), collect all responses and send them back as JSON object with sections for each response.
+```js
+{
+  one: '/api/test?option1=true',
+  option2: 'false',
+  two: '/api/test'
+}
+```
 
-Currently only routes for GET locations supported.
+it is now possible, by initializing the middleware with an optional parameter (e.g., `app.use('/api/batchNested', expressBatchDeep(app, { separator: '|' }))`), and changing the batch endpoint query string accordingly to `/api/batch?one=/api/test?option1=true&option2=false|two=/api/test`, it will now be represented as:
+
+```js
+{
+  one: '/api/test?option1=true&option2=false',
+  two: '/api/test'
+}
+```
+
+as it might be desired.
+
+All responses are sent back as a JSON object with sections for each response.
+
+Currently only routes for GET locations are supported.
 
 ## Example
 
 ```js
 // app init
 var express = require("express");
-var expressBatch = require("express-batch");
+var expressBatchDeep = require("express-batch");
 var app = express();
 
 // mounting batch handler
-app.use("/api/batch", expressBatch(app));
+app.use("/api/batch", expressBatchDeep(app));
 
 
 // mounting ordinary API endpoints
@@ -69,36 +86,6 @@ With this example request to  `http://localhost:3000/api/batch?users=/api/users/
     }
 }
 ```
-
-
-## Limitations
-* Tested only with Express 4
-* Supports only routes for GET requests.
-* Handlers which will bу used beyond the middleware, could use only these methods of response:
-  - `res.json()`
-  - `res.jsonp()`
-  - `res.jsonp()`
-  - `res.end()`
-  - `res.status()`
-  - `res.sendStatus()`
-  - `res.sendStatus()`
-  - `res.setHeader()`
-  -  assign value to `res.statusCode` 
-    
-## Notes
-
- There are similar packages, but which work via using real http requests:
-- [sonofabatch](https://www.npmjs.org/package/sonofabatch)   
-- [batch-endpoint](https://www.npmjs.org/package/batch-endpoint)
-- [express-batch-proxy](https://github.com/codastic/express-batch-proxy)
-
-
-## Todo
-- [x] Returning headers in batch results
-- [ ] Add documentation about headers passing 
-- [ ] Support of arrays (`batch?users=/api/users/1&users=/api/users/2` should return `users: [{id:1}, {id:2}]`)
-- [ ] Support of rest of HTTP methods
-- [ ] Support of rest of `response` methods
    
    
 ## License
@@ -106,21 +93,11 @@ With this example request to  `http://localhost:3000/api/batch?users=/api/users/
   [MIT](LICENSE)
 
 ============= 
-[![Gitter][gitter-img]][gitter-url]
-[![Bitdeli Badge][bitdeli-img]][bitdeli-url]
 
 
-[travis-img]: https://travis-ci.org/yarikos/express-batch.svg?branch=master
-[travis-url]: https://travis-ci.org/yarikos/express-batch
+[travis-img]: https://travis-ci.org/ajschlosser/express-batch-deep.svg?branch=master
+[travis-url]: https://travis-ci.org/ajschlosser/express-batch-deep
 [downloads-img]: https://img.shields.io/npm/dm/express-batch.svg
 [downloads-url]: https://npmjs.org/package/express-batch
 [license-img]: https://img.shields.io/npm/l/express-batch.svg
 [license-url]: LICENSE
-[coveralls-img]: https://img.shields.io/coveralls/yarikos/express-batch.svg
-[coveralls-url]: https://coveralls.io/r/yarikos/express-batch
-[codeclimate-img]: https://img.shields.io/codeclimate/github/yarikos/express-batch.svg
-[codeclimate-url]: https://codeclimate.com/github/yarikos/express-batch
-[gitter-img]: https://badges.gitter.im/Join%20Chat.svg
-[gitter-url]: https://gitter.im/yarikos/express-batch?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
-[bitdeli-img]: https://d2weczhvl823v0.cloudfront.net/yarikos/express-batch/trend.png
-[bitdeli-url]: https://bitdeli.com/free%20%22Bitdeli%20Badge%22
