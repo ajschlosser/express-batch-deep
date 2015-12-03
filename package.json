@@ -1,6 +1,6 @@
 {
   "name": "express-batch-deep",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "Express 4.x middleware for batched API requests.",
   "main": "express-batch-deep.js",
   "scripts": {
