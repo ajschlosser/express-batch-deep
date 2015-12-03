@@ -70,7 +70,7 @@ app.get("/api/climate/", function apiClimateHandler(req, res) {
         warm: false
     };
 
-    // e.g., with a path of 'api/batchNested?climate=/api/climate/?sunny=true&warm=true'
+    // e.g., with a request path of 'api/batch?climate=/api/climate/?sunny=true&warm=true'
     if (req.query.sunny === 'true' && req.query.warm === 'true') {
         response.sunny = true;
         response.warm = true;
