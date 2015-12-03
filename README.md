@@ -7,11 +7,11 @@ express-batch-deep
 
 ## Description
 
-Handler for [Express 4](http://expressjs.com/4x/api.html) application that allows for batch requests.
+[Express 4.x](http://expressjs.com/4x/api.html) middleware that allows for batched API requests with nested field-value pairs. This began as a fork of [express-batch](https://github.com/yarikos/express-batch) by [yarikos](https://github.com/yarikos).
 
-It's attached as handler of an particular route, like any kind of middelware.
+If you need to perform several different but simultaneous requests to one API endpoint, `express-batch-deep` allows you to combine them all together (in one querystring) and send only one request to the handler's route. This fork of [express-batch](https://github.com/yarikos/express-batch) by [yarikos](https://github.com/yarikos) aims to add support for nested field-value pairs within querystrings.
 
-If you need to perform several different but simultaneous requests to one API endpoint, `express-batch-deep` allows you to combine them all together (in one querystring) and send only one request to the handler's route. This began as a fork of [express-batch](https://github.com/yarikos/express-batch) by [yarikos](https://github.com/yarikos) with the intention of adding support for nested field-value pairs within querystrings. The original `express-batch` module (and many like it) already leveraged `req.query` to separate the distinct batched API endpoints via field-value pairs. However, if any of those batched API endpoints required field-value pairs, it no longer worked. `express-batch-deep`, however, allows for you to pass in an optional "separator" value (in the test, `|` is used as an example), to indicate that the endpoints should not be separated by `&`, and that `&` should rather be considered an integral part of the endpoint's query string. In other words, whereas before `/api/batch?one=/api/test?option1=true&option2=false&two=/api/test` would be represented in the `requests` object as something like
+The original `express-batch` module (and many like it) already leveraged `req.query` to separate the distinct batched API endpoints via field-value pairs. However, if any of those batched API endpoints required field-value pairs, it no longer worked. `express-batch-deep`, however, allows for you to pass in an optional "separator" value (in the test, `|` is used as an example), to indicate that the endpoints should not be separated by `&`, and that `&` should rather be considered an integral part of the endpoint's query string. In other words, whereas before `/api/batch?one=/api/test?option1=true&option2=false&two=/api/test` would be represented in the `requests` object as something like
 
 ```js
 {
@@ -41,11 +41,14 @@ Currently only routes for GET locations are supported.
 ```js
 // app init
 var express = require("express");
-var expressBatchDeep = require("express-batch");
+var expressBatchDeep = require("express-batch-deep");
 var app = express();
 
-// mounting batch handler
-app.use("/api/batch", expressBatchDeep(app));
+// mounting batch handler with optional separator for nested field-value pairs
+var options = {
+    separator: '|'
+};
+app.use("/api/batch", expressBatchDeep(app, options));
 
 
 // mounting ordinary API endpoints
@@ -59,6 +62,21 @@ app.get("/api/users/:id", function apiUserHandler(req, res) {
         name: "Alice"
     });
 });
+
+// easily handle batched requests with deep field-value pairs
+app.get("/api/climate/", function apiClimateHandler(req, res) {
+    var response = {
+        sunny: false,
+        warm: false
+    };
+
+    // e.g., with a path of 'api/batchNested?climate=/api/climate/?sunny=true&warm=true'
+    if (req.query.sunny === 'true' && req.query.warm === 'true') {
+        response.sunny = true;
+        response.warm = true;
+    }
+    res.json(response);
+})
 
 // starting app
 app.listen(3000);
