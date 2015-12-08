@@ -1,6 +1,10 @@
 express-batch-deep
 =============
 
+# Deprecation warning
+
+This was initially a fork of [express-batch](https://github.com/yarikos/express-batch) by [yarikos](https://github.com/yarikos). Its principal difference has since been merged back into that module, which you should use instead of this one.
+
 [![Build Status][travis-img]][travis-url]
 [![NPM Downloads][downloads-img]][downloads-url]
 [![License][license-img]][license-url]
